@@ -1,7 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Permutohedra of order 4</title>
+	<script src="svg_logic.js"></script>
+</head>
 <body id="jesus"></body>
-<script src="svg_logic.js"></script>
 <script>
-
 var H = 2;
 var L = 3;
 var r = 54;
@@ -10,13 +15,11 @@ var r3 = r * Math.sqrt(3);
 var hauteur = Math.floor(((4*Math.sqrt(3)+2)*H + Math.sqrt(3)*.5)*r + .5*r);
 var largeur = Math.floor((4.5*2*L + .5)*r + .5*r);
 
-var xmlns = "http://www.w3.org/2000/svg";
-
 var svgElmt = createSVG("main", largeur, hauteur, "Patrons de permutoèdre de rang 4.");
 var defs = createDefs();
 defs.appendChild(createHemiPermutohedron("hemi", r));
 svgElmt.appendChild(defs);
-//
+
 var x0 = 2.5*r + .125*r;
 var y0 = 1.5*r3 + 1.25*r;
 var x1 = x0 + 4.5*r;
@@ -33,13 +36,7 @@ for (var i = 0; i < H; i++)
 		svgElmt.appendChild(createUse(x1 + j * x_step, y1 + (2*i + 1)*y_step, 180, "#hemi", "none", "black"));
 	}
 
-//
-
-
-//
 svgElmt.style.display = "block";
 document.getElementById("jesus").appendChild(svgElmt);
-
-
-
 </script>
+</html>

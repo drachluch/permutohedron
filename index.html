@@ -1,0 +1,45 @@
+<body id="jesus"></body>
+<script src="svg_logic.js"></script>
+<script>
+
+var H = 2;
+var L = 3;
+var r = 54;
+var r3 = r * Math.sqrt(3);
+
+var hauteur = Math.floor(((4*Math.sqrt(3)+2)*H + Math.sqrt(3)*.5)*r + .5*r);
+var largeur = Math.floor((4.5*2*L + .5)*r + .5*r);
+
+var xmlns = "http://www.w3.org/2000/svg";
+
+var svgElmt = createSVG("main", largeur, hauteur, "Patrons de permutoèdre de rang 4.");
+var defs = createDefs();
+defs.appendChild(createHemiPermutohedron("hemi", r));
+svgElmt.appendChild(defs);
+//
+var x0 = 2.5*r + .125*r;
+var y0 = 1.5*r3 + 1.25*r;
+var x1 = x0 + 4.5*r;
+var y1 = y0 -r -.5*r3;
+var y_step = 2*r3+r;
+var x_step = 9*r;
+
+for (var i = 0; i < H; i++)
+	for (var j = 0; j < L; j++) {
+		svgElmt.appendChild(createUse(x0 + j * x_step, y0 + (2*i + 0) * y_step, 0, "#hemi", "none", "black"));
+		svgElmt.appendChild(createUse(x0 + j * x_step, y0 + (2*i + 1) * y_step, 0, "#hemi", "none", "black"));
+		
+		svgElmt.appendChild(createUse(x1 + j * x_step, y1 + (2*i + 0)*y_step, 180, "#hemi", "none", "black"));
+		svgElmt.appendChild(createUse(x1 + j * x_step, y1 + (2*i + 1)*y_step, 180, "#hemi", "none", "black"));
+	}
+
+//
+
+
+//
+svgElmt.style.display = "block";
+document.getElementById("jesus").appendChild(svgElmt);
+
+
+
+</script>

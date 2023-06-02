@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Permutohedra of order 4</title>
+	<style> path { stroke-linejoin:round;}</style>
+</head>
+<body id="jesus"></body>
+<script>
+var xmlns = "http://www.w3.org/2000/svg";
+var d = 1;
+
+function createSVG(id, largeur, hauteur, title) {
+	var svgElmt = document.createElementNS(xmlns, "svg");
+	svgElmt.setAttributeNS(null, "width",  largeur+2*d);
+	svgElmt.setAttributeNS(null, "height", hauteur+2*d);
+	svgElmt.setAttributeNS(null, "id",     id);
+	
+	var t = document.createElementNS(xmlns, "title");
+	t.appendChild(document.createTextNode(title));
+	svgElmt.appendChild(t);
+	
+	return svgElmt;
+}
+
+function createDefs() {
+	return document.createElementNS(xmlns, "defs");
+}
+
+function createHemiPermutohedron(id, r) {
+	var r3 = r * Math.sqrt(3);
+	
+	var pts_externe = [
+		[(-.5*r     ).toFixed(8)     , (     .5*r3   ).toFixed(8)].join(" "),
+		[(-.5*r     ).toFixed(8)     , (     .5*r3+r ).toFixed(8)].join(" "), // carre du bas
+		[(.5*r      ).toFixed(8)     , (      .5*r3+r).toFixed(8)].join(" "), // carre du bas
+		[(.5*r      ).toFixed(8)     , (      .5*r3  ).toFixed(8)].join(" "),
+		[(r         ).toFixed(8)     , (         r3  ).toFixed(8)].join(" "), // hexagone du bas droit
+		[(2*r       ).toFixed(8)     , (       r3    ).toFixed(8)].join(" "), // hexagone du bas droit
+		[(2.5*r     ).toFixed(8)     , (     .5*r3   ).toFixed(8)].join(" "), // hexagone du bas droit
+		[(2*r       ).toFixed(8)     , (       0     ).toFixed(8)].join(" "), // hexagone du bas droit
+		[(r         ).toFixed(8)     , (         0   ).toFixed(8)].join(" "),
+		[(.5*r3+r   ).toFixed(8)     , (     -.5*r   ).toFixed(8)].join(" "), // carre du haut droit
+		[(.5*(r3+r) ).toFixed(8)     , ( -.5*(r3+r)  ).toFixed(8)].join(" "), // carre du haut droit
+		[(.5*r      ).toFixed(8)     , (      -.5*r3 ).toFixed(8)].join(" "),
+		[(r         ).toFixed(8)     , (         -r3 ).toFixed(8)].join(" "), // hexagone du haut
+		[(.5*r      ).toFixed(8)     , (      -1.5*r3).toFixed(8)].join(" "), // hexagone du haut
+		[(-.5*r     ).toFixed(8)     , (     -1.5*r3 ).toFixed(8)].join(" "), // hexagone du haut
+		[(-r        ).toFixed(8)     , (        -r3  ).toFixed(8)].join(" "), // hexagone du haut
+		[(-.5*r     ).toFixed(8)     , (     -.5*r3  ).toFixed(8)].join(" "),
+		[(-.5*(r+r3)).toFixed(8)     , (-.5*(r3+r)   ).toFixed(8)].join(" "), // carre du haut gauche
+		[(-.5*r3-r  ).toFixed(8)     , (  -.5*r      ).toFixed(8)].join(" "), // carre du haut gauche
+		[(-r        ).toFixed(8)     , (        0    ).toFixed(8)].join(" "),
+		[(-2*r      ).toFixed(8)     , (      0      ).toFixed(8)].join(" "), // hexagone du bas gauche
+		[(-2.5*r    ).toFixed(8)     , (    .5*r3    ).toFixed(8)].join(" "), // hexagone du bas gauche
+		[(-2*r      ).toFixed(8)     , (      r3     ).toFixed(8)].join(" "), // hexagone du bas gauche
+		[(-r        ).toFixed(8)     , (        r3   ).toFixed(8)].join(" ")  // hexagone du bas gauche
+	];
+	
+	var pts_interne = [
+		[-.5*r, .5*r3 ].join(" "),
+		[.5*r,  .5*r3 ].join(" "),
+		[r,     0     ].join(" "),
+		[.5*r,  -.5*r3].join(" "),
+		[-.5*r, -.5*r3].join(" "),
+		[-r,    0     ].join(" ")
+	];
+	
+	var path_externe = document.createElementNS(xmlns, "path");
+	path_externe.setAttributeNS(null, "d", "M" + pts_externe.join(" L") + " Z");
+	var path_interne = document.createElementNS(xmlns, "path");
+	path_interne.setAttributeNS(null, "d", "M" + pts_interne.join(" L") + " Z");
+	
+	var g = document.createElementNS(xmlns, "g");
+	g.setAttributeNS(null, "id", id);
+	
+	g.appendChild(path_externe);
+	g.appendChild(path_interne);
+	return g;
+}
+
+function createUse(x, y, angle, href, fill, stroke) {
+	var u = document.createElementNS(xmlns, "use");
+	u.setAttributeNS(null, "x", x);
+	u.setAttributeNS(null, "y", y);
+	u.setAttributeNS(null, "href", href);
+	u.setAttributeNS(null, "fill", fill);
+	u.setAttributeNS(null, "stroke", stroke);
+	u.setAttributeNS(null, "transform", "rotate("+angle+", "+(x)+", "+(y)+")");
+	return u;
+}
+
+var H = 2;
+var L = 3;
+var r = 54;
+var r3 = r * Math.sqrt(3);
+
+//var hauteur = Math.floor(((4*Math.sqrt(3)+2)*H + Math.sqrt(3)*.5)*r + .5*r), largeur = Math.floor((4.5*2*L + .5)*r + .5*r);
+var hauteur = Math.floor(4*r3*H + 2*r*H + r3 - 1.25*r), largeur = Math.floor(6*r*L + r3*L + 2.25*r - .5*r3);
+
+var svgElmt = createSVG("main", largeur, hauteur, "Patrons de permutoèdre de rang 4.");
+var defs = createDefs();
+defs.appendChild(createHemiPermutohedron("hemi", r));
+svgElmt.appendChild(defs);
+
+//var x0 = 2.5*r + .125*r, y0 = 1.5*r3 + 1.25*r;
+//var x1 = x0 + 4.5*r, y1 = y0 -r -.5*r3;
+//var y_step = 2*r3+r, x_step = 9*r;
+var x0 = 2.5*r + .125*r, y0 = 1.5*r3 + .125*r;
+var x1 = x0 + 3*r + .5*r3, y1 = y0 - .5*r;
+var y_step = 2*r3+r, x_step = 6*r + r3;
+
+for (var i = 0; i < H; i++)
+	for (var j = 0; j < L; j++) {
+		svgElmt.appendChild(createUse(x0 + j * x_step, y0 + (2*i + 0) * y_step, 0, "#hemi", "none", "black"));
+		svgElmt.appendChild(createUse(x0 + j * x_step, y0 + (2*i + 1) * y_step, 0, "#hemi", "none", "black"));
+		
+		svgElmt.appendChild(createUse(x1 + j * x_step, y1 + (2*i + 0)*y_step, 180, "#hemi", "none", "black"));
+		svgElmt.appendChild(createUse(x1 + j * x_step, y1 + (2*i + 1)*y_step, 180, "#hemi", "none", "black"));
+	}
+
+svgElmt.style.display = "block";
+document.getElementById("jesus").appendChild(svgElmt);
+</script>
+</html>

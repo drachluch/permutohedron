@@ -20,12 +20,10 @@ function createPolygon(id, d) {
 		s += d[i].toFixed(4)+","+d[i+1].toFixed(4)+" L";
 	if (i+1 < d.length)
 		s += d[i].toFixed(4)+","+d[i+1].toFixed(4)+" Z";
-	var g = document.createElementNS(xmlns, "g");
 	var p = document.createElementNS(xmlns, "path");
 	p.setAttributeNS(null, "d", s);
-	g.appendChild(p);
-	g.setAttributeNS(null, "id", id);
-	return g;
+	p.setAttributeNS(null, "id", id);
+	return p;
 }
 
 function createUse(x, y, angle, href, fill, stroke) {

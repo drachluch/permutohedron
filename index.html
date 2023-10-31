@@ -4,14 +4,13 @@
 	<meta charset="utf-8" />
 	<title>Permutohedra of order 4</title>
 	<style type="text/css">path{stroke-linejoin:round;}</style>
-</head>
-<body id="body"></body>
-<script language="javascript">
+	<script language="javascript">
 var xmlns = "http://www.w3.org/2000/svg";
-var d = 1;
-var H = 2;
-var L = 3;
-var r = 54;
+var q = new URLSearchParams(window.location.search);
+var d = q.has('d') ? +q.get('d') : 1;
+var H = q.has('H') ? +q.get('H') : 2;
+var L = q.has('L') ? +q.get('L') : 3;
+var r = q.has('r') ? +q.get('r') : 54;
 var r3 = r * Math.sqrt(3);
 
 function createPolygon(id, d) {
@@ -97,21 +96,22 @@ function getSvgElmt(hauteur, largeur, p, q, step) {
 	return svgElmt;
 }
 
-var q = new URLSearchParams(window.location.search);
-
-if (q.has('compact')) {
-	var hauteur = Math.floor(4*r3*H + 2*r*H + r3 - 1.25*r), largeur = Math.floor(6*r*L + r3*L + 2.25*r - .5*r3);
-	var x0 = 2.5*r + .125*r, y0 = 1.5*r3 + .125*r;
-	var x1 = x0 + 3*r + .5*r3, y1 = y0 + .5*r + 2*r3;
-	var y_step = 2*r3+r, x_step = 6*r + r3;
-	document.getElementById("body").appendChild(getSvgElmt(hauteur, largeur, {x:x0, y:y0}, {x:x1, y:y1}, {x:x_step, y:y_step}));
-} else {
-	var hauteur = Math.floor(((4*Math.sqrt(3)+2)*H + Math.sqrt(3)*.5)*r + .5*r), largeur = Math.floor((4.5*2*L + .5)*r + .5*r);
-	var x0 = 2.5*r + .125*r, y0 = 1.5*r3 + 1.25*r;
-	var x1 = x0 + 4.5*r, y1 = y0 +1.5*r3;
-	var y_step = 2*r3+r, x_step = 9*r;
-	document.getElementById("body").appendChild(getSvgElmt(hauteur, largeur, {x:x0, y:y0}, {x:x1, y:y1}, {x:x_step, y:y_step}));
+function draw() {
+	if (q.has('compact')) {
+		var hauteur = Math.floor(4*r3*H + 2*r*H + r3 - 1.25*r), largeur = Math.floor(6*r*L + r3*L + 2.25*r - .5*r3);
+		var x0 = 2.5*r + .125*r, y0 = 1.5*r3 + .125*r;
+		var x1 = x0 + 3*r + .5*r3, y1 = y0 + .5*r + 2*r3;
+		var y_step = 2*r3+r, x_step = 6*r + r3;
+		document.getElementById("body").appendChild(getSvgElmt(hauteur, largeur, {x:x0, y:y0}, {x:x1, y:y1}, {x:x_step, y:y_step}));
+	} else {
+		var hauteur = Math.floor(((4*Math.sqrt(3)+2)*H + Math.sqrt(3)*.5)*r + .5*r), largeur = Math.floor((4.5*2*L + .5)*r + .5*r);
+		var x0 = 2.5*r + .125*r, y0 = 1.5*r3 + 1.25*r;
+		var x1 = x0 + 4.5*r, y1 = y0 +1.5*r3;
+		var y_step = 2*r3+r, x_step = 9*r;
+		document.getElementById("body").appendChild(getSvgElmt(hauteur, largeur, {x:x0, y:y0}, {x:x1, y:y1}, {x:x_step, y:y_step}));
+	}
 }
-
 </script>
+</head>
+<body id="body" onload="draw();"></body>
 </html>
